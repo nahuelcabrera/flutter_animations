@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:flutter/scheduler.dart';
 
 void main()=> runApp(MyApp());
 
@@ -29,6 +30,7 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin
     try
     {
       await animationController.forward().orCancel;
+      await animationController.reverse().orCancel;
     } on TickerCanceled
     {
       print('Animation failed');
@@ -37,10 +39,13 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
+
+    timeDilation = 7.0;
+
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('IDIOT'),
+          title: Text('Animations'),
         ),
         body: GestureDetector(
           onTap: ()
@@ -55,9 +60,7 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin
                 color: Colors.grey.withOpacity(0.1),
                 border: Border.all(color: Colors.blueGrey.withOpacity(0.8))
               ),
-              child: Container(
-                
-              ),
+              child: AnimatedBox(controller: animationController,),
             ),
           ),
         ),
@@ -118,7 +121,33 @@ class AnimatedBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return AnimatedBuilder(
+        animation: controller,
+        builder: (BuildContext context, Widget child)
+        {
+          return Container(
+            padding: movement.value,
+            transform: Matrix4.identity()..rotateZ(rotate.value),
+            alignment: Alignment.center,
+            child: Opacity(
+              opacity: opacity.value,
+              child: Container(
+                width: width.value,
+                height: height.value,
+                decoration: BoxDecoration(
+                  color: color.value,
+                  border: Border.all(
+                    color: Colors.cyan,
+                    width: 2.0,
+                  ),
+                  borderRadius: radius.value
+                ),
+              ),
+            ),
+
+          );
+        }
+    );
   }
 }
 
