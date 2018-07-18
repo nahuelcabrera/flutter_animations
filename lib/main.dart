@@ -40,7 +40,7 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
 
-    timeDilation = 7.0;
+    timeDilation = 15.0;
 
     return MaterialApp(
       home: Scaffold(
@@ -57,7 +57,7 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin
               width: 350.0,
               height: 350.0,
               decoration: BoxDecoration(
-                color: Colors.grey.withOpacity(0.1),
+                color: Colors.cyan.withOpacity(0.6),
                 border: Border.all(color: Colors.blueGrey.withOpacity(0.8))
               ),
               child: AnimatedBox(controller: animationController,),
@@ -81,7 +81,7 @@ class AnimatedBox extends StatelessWidget {
     begin: 0.0,
     end: 3.141 * 4
   ).animate(
-    CurvedAnimation(parent: controller, curve: Curves.ease)
+    CurvedAnimation(parent: controller, curve: Interval(0.1, 0.3, curve: Curves.easeIn))
   ), movement = EdgeInsetsTween(
     begin: EdgeInsets.only(bottom: 10.0, left: 0.0),
     end: EdgeInsets.only(bottom: 100.0, left: 75.0)
@@ -91,7 +91,7 @@ class AnimatedBox extends StatelessWidget {
     begin: 50.0,
     end: 200.0
   ).animate(
-      CurvedAnimation(parent: controller, curve: Interval(0.4, 0.6, curve: Curves.fastOutSlowIn))
+      CurvedAnimation(parent: controller, curve: Interval(0.3, 0.6, curve: Curves.fastOutSlowIn))
   ), height = Tween<double>(
       begin: 50.0,
       end: 200.0
@@ -102,10 +102,10 @@ class AnimatedBox extends StatelessWidget {
     begin: BorderRadius.circular(0.0),
     end: BorderRadius.circular(100.0)
   ).animate(
-      CurvedAnimation(parent: controller, curve: Interval(0.6, 0.75, curve: Curves.ease))
+      CurvedAnimation(parent: controller, curve: Interval(0.5, 0.75, curve: Curves.ease))
   ), color = ColorTween(
-    begin: Colors.orange[200],
-    end: Colors.deepPurple[900]
+    begin: Colors.black38,
+    end: Colors.yellow
   ).animate(
     CurvedAnimation(parent: controller, curve: Interval(0.0, 0.75, curve: Curves.linear))
   ), super(key : key);
@@ -137,8 +137,8 @@ class AnimatedBox extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: color.value,
                   border: Border.all(
-                    color: Colors.cyan,
-                    width: 2.0,
+                    color: Colors.orange,
+                    width: 3.0,
                   ),
                   borderRadius: radius.value
                 ),
